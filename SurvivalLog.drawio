@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" version="28.0.7">
+  <diagram name="Page-1" id="virwSwZl7SlOP0qfOHNQ">
+    <mxGraphModel dx="1426" dy="695" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yPyT-iFx4aSO2X5-KBG4-1" value="Survivor:&lt;br&gt;username - password - is_verified - email" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="yPyT-iFx4aSO2X5-KBG4-2" value="Zone :&lt;br&gt;&lt;br&gt;name - is_safe" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="600" y="80" width="180" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="yPyT-iFx4aSO2X5-KBG4-4" value="Zone Connection :&lt;br&gt;&lt;br&gt;from_zone = relation zone&lt;br&gt;to_zone = relation zone&lt;br&gt;seen_zombie&lt;br&gt;date&lt;br&gt;note&lt;br&gt;relation to survivor" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="65" y="300" width="290" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="yPyT-iFx4aSO2X5-KBG4-5" value="Log :&lt;br&gt;&lt;br&gt;relation to Survivors&lt;br&gt;relation to Zone&lt;br&gt;Note&lt;br&gt;zombie_amount&lt;br&gt;date&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="560" y="315" width="235" height="215" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
