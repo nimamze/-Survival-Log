@@ -1,10 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-
-class Survivor(models.Model):
+class Survivor(AbstractUser):
     
-    username = models.CharField(max_length=10)
-    password = models.CharField(max_length=10)
     is_verified = models.BooleanField(default=False)
-    email = models.EmailField()
 
