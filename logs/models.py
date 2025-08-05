@@ -6,10 +6,14 @@ class Zone(models.Model):
     name = models.CharField(max_length=10)
     is_safe = models.BooleanField()
 
+    def __str__(self):
+        return self.name
+    
+
 class Log(models.Model):
 
     survivor = models.ForeignKey(Survivor,on_delete=models.CASCADE,related_name='survivor_log')
-    zone = models.ForeignKey(Survivor,on_delete=models.CASCADE,related_name='zone_log')
+    zone = models.ForeignKey(Zone,on_delete=models.CASCADE,related_name='zone_log')
     note = models.TextField()
     zombie_amount = models.PositiveIntegerField()
     date = models.DateField(auto_now_add=True)

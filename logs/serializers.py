@@ -9,11 +9,12 @@ class ZoneSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LogSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
 
         model = models.Log
-        exclude = ['date']
+        exclude = ['date','survivor']
+        
 
 class ZoneConnectionSerializer(serializers.ModelSerializer):
 
@@ -21,3 +22,4 @@ class ZoneConnectionSerializer(serializers.ModelSerializer):
 
         model = models.ZoneConnection
         exclude = ['date']
+
