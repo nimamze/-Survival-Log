@@ -1,23 +1,31 @@
 from rest_framework import serializers
-from . import models
+from .models import Zone,Log,ZoneConnection
 
 class ZoneSerializer(serializers.ModelSerializer):
 
     class Meta:
 
-        model = models.Zone
+        model = Zone
         fields = '__all__'
 
 class LogSerializer(serializers.ModelSerializer):
 
     class Meta:
 
-        model = models.Log
+        model = Log
         exclude = ['date']
 
+    def create(self, validated_data):
+        log = Log.objects.create(
+            note = validated_data['note'],
+            zombie_amount = validated_data['zombie_amount'],
+            zone = validated_data['zone'],
+            survivor = validated_data['zone']
+        )
+        return log
 class ZoneConnectionSerializer(serializers.ModelSerializer):
 
     class Meta:
 
-        model = models.ZoneConnection
+        model = ZoneConnection
         exclude = ['date']
