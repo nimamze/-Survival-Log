@@ -28,6 +28,16 @@ class ZoneConnectionSerializer(serializers.ModelSerializer):
         model = ZoneConnection
         exclude = ["date"]
 
+    def create(self, validated_data):
+        zoneConnection = ZoneConnection.objects.create(
+            note=validated_data["note"],
+            seen_zombie=validated_data["seen_zombie"],
+            from_zone=validated_data["from_zone"],
+            to_zone=validated_data["to_zone"],
+            survivor=validated_data["survivor"],
+        )
+        return zoneConnection
+
 
 class LogListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,3 +51,7 @@ class LogUpdateSerializer(serializers.ModelSerializer):
         exclude = ["date"]
 
 
+class ZoneConnectionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ZoneConnection
+        fields = "__all__"

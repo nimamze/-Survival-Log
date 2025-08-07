@@ -1,5 +1,12 @@
 from django.urls import path
-from .views import LogCreate, LogList, LogUpdate, LogDelete
+from .views import (
+    LogCreate,
+    LogList,
+    LogUpdate,
+    LogDelete,
+    ZoneConnectionCreate,
+    ZoneConnectionList,
+)
 from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view  # type: ignore
@@ -25,6 +32,16 @@ urlpatterns = [
     path("log-list/", LogList.as_view(), name="log_list"),
     path("log-update/<int:pk>/", LogUpdate.as_view(), name="log_update"),
     path("log-delete/<int:pk>/", LogDelete.as_view(), name="log_delete"),
+    path(
+        "zone-connection-create/",
+        ZoneConnectionCreate.as_view(),
+        name="zone_connection_create",
+    ),
+    path(
+        "zone-connection-list/",
+        ZoneConnectionList.as_view(),
+        name="zone_connection_list",
+    ),
     path(
         "swagger<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"
     ),
