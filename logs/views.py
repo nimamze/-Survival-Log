@@ -24,15 +24,17 @@ class LogCreate(generics.CreateAPIView):
     number_count = 0
 
     def randomValidate(self, request):
-        random_number = randint(1, 100)
+        random_number = 2
         if random_number % 2 == 0:
             if self.__class__.number_count < 3:
                 self.__class__.number_count += 1
-                time.sleep(10)
+                time.sleep(2)
                 return True
             else:
                 self.__class__.number_count = 0
-                request.session["need_puzzle"] = True
+                user = request.user
+                user.need_puzzle = True
+                user.save()
                 return False
         else:
             self.__class__.number_count = 0
@@ -40,7 +42,8 @@ class LogCreate(generics.CreateAPIView):
 
     @swagger_auto_schema(security=[{"Token": []}])
     def post(self, request, *args, **kwargs):
-        if not request.session.get("need_puzzle"):
+        print(request.user.need_puzzle)
+        if request.user.need_puzzle:
             return super().post(request, *args, **kwargs)
         if self.randomValidate(request):
             return super().post(request, *args, **kwargs)
@@ -54,23 +57,26 @@ class Puzzle(APIView):
         return Response({"puzzle": "What is 2 + 2?"})
 
     def post(self, request):
-        serializer = PuzzleAnswer(request.data)
-        answer = str(serializer.validated_data.get("answer")).strip()  # type: ignore
-        if answer == "4":
-            request.session["need_puzzle"] = False
-            return Response(
-                {"message": "redirect to page log create"},
-                status=status.HTTP_301_MOVED_PERMANENTLY,
-            )
+        serializer = PuzzleAnswer(data=request.data)
+        if serializer.is_valid():
+            answer = str(serializer.validated_data.get("answer")).strip()  # type: ignore
+            if answer == "4":
+                user = request.user
+                user.need_puzzle = False
+                user.save()
+                return Response(
+                    {"message": "redirect to page log create"},
+                    status=status.HTTP_301_MOVED_PERMANENTLY,
+                )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LogList(generics.ListAPIView):
     queryset = Log.objects.all()
     serializer_class = LogListSerializer
+    permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
-        request.session["need_puzzle"] = True
         return super().get(request, *args, **kwargs)
 
 

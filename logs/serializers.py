@@ -58,4 +58,4 @@ class ZoneConnectionListSerializer(serializers.ModelSerializer):
 
 
 class PuzzleAnswer(serializers.Serializer):
-    answer = serializers.IntegerField()
+    answer = serializers.CharField()
