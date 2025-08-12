@@ -7,49 +7,71 @@ from .serializers import (
     LogListSerializer,
     LogUpdateSerializer,
     ZoneConnectionListSerializer,
+    PuzzleAnswer,
 )
 from .models import Log, ZoneConnection
 from drf_yasg.utils import swagger_auto_schema  # type: ignore
+from rest_framework.response import Response
 from random import randint
-# import time
+import time
+from rest_framework import status
 
 
 class LogCreate(generics.CreateAPIView):
     queryset = Log.objects.all()
     serializer_class = LogSerializer
     permission_classes = [permissions.IsAuthenticated]
-    # number_count = 0
+    number_count = 0
 
-    # def randomValidate(self):
-    #     random_number = randint(1, 100)
-    #     if random_number % 2 == 0:
-    #         if self.__class__.number_count < 3:
-    #             self.__class__.number_count += 1
-    #             time.sleep(10)
-    #             return True
-    #         else:
-    #             self.__class__.number_count = 0
-    #             return False
-    #     else:
-    #         self.__class__.number_count = 0
-    #         return True
-
-    # def puzzle(self):
-    #     pass
+    def randomValidate(self, request):
+        random_number = randint(1, 100)
+        if random_number % 2 == 0:
+            if self.__class__.number_count < 3:
+                self.__class__.number_count += 1
+                time.sleep(10)
+                return True
+            else:
+                self.__class__.number_count = 0
+                request.session["need_puzzle"] = True
+                return False
+        else:
+            self.__class__.number_count = 0
+            return True
 
     @swagger_auto_schema(security=[{"Token": []}])
     def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
-        # result = self.randomValidate()
-        # if result:
-        #     return super().post(request, *args, **kwargs)
-        # if self.puzzle():
-        #     return super().post(request, *args, **kwargs)
+        if not request.session.get("need_puzzle"):
+            return super().post(request, *args, **kwargs)
+        if self.randomValidate(request):
+            return super().post(request, *args, **kwargs)
+        return redirect("puzzle")
+
+
+class Puzzle(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        return Response({"puzzle": "What is 2 + 2?"})
+
+    def post(self, request):
+        serializer = PuzzleAnswer(request.data)
+        answer = str(serializer.validated_data.get("answer")).strip()  # type: ignore
+        if answer == "4":
+            request.session["need_puzzle"] = False
+            return Response(
+                {"message": "redirect to page log create"},
+                status=status.HTTP_301_MOVED_PERMANENTLY,
+            )
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LogList(generics.ListAPIView):
     queryset = Log.objects.all()
     serializer_class = LogListSerializer
+
+    def get(self, request, *args, **kwargs):
+        request.session["need_puzzle"] = True
+        return super().get(request, *args, **kwargs)
 
 
 class LogUpdate(generics.UpdateAPIView):

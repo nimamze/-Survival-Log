@@ -55,3 +55,7 @@ class ZoneConnectionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ZoneConnection
         fields = "__all__"
+
+
+class PuzzleAnswer(serializers.Serializer):
+    answer = serializers.IntegerField()

@@ -6,6 +6,7 @@ from .views import (
     LogDelete,
     ZoneConnectionCreate,
     ZoneConnectionList,
+    Puzzle,
 )
 from django.urls import re_path
 from rest_framework import permissions
@@ -29,6 +30,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("log-create/", LogCreate.as_view(), name="log_create"),
+    path("puzzle/", Puzzle.as_view(), name="puzzle"),
     path("log-list/", LogList.as_view(), name="log_list"),
     path("log-update/<int:pk>/", LogUpdate.as_view(), name="log_update"),
     path("log-delete/<int:pk>/", LogDelete.as_view(), name="log_delete"),
