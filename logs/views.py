@@ -24,11 +24,11 @@ class LogCreate(generics.CreateAPIView):
     number_count = 0
 
     def randomValidate(self, request):
-        random_number = 2
+        random_number = randint(1, 100)
         if random_number % 2 == 0:
             if self.__class__.number_count < 3:
                 self.__class__.number_count += 1
-                time.sleep(2)
+                time.sleep(10)
                 return True
             else:
                 self.__class__.number_count = 0
