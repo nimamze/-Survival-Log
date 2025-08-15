@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'survivors.apps.SurvivorsConfig',
     'logs.apps.LogsConfig',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    
 ]
 
 ROOT_URLCONF = 'apocalypse_api.urls'
@@ -126,8 +129,15 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-'DEFAULT_AUTHENTICATION_CLASSES': [
-'rest_framework.authentication.TokenAuthentication',
-]
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 AUTH_USER_MODEL = 'survivors.Survivor'
+
+INTERNAL_IPS = [
+    
+    "127.0.0.1",
+    
+]

@@ -18,6 +18,10 @@ class Log(models.Model):
     zombie_amount = models.PositiveIntegerField()
     date = models.DateField(auto_now_add=True)
 
+    def __str__(self):
+        return self.survivor.username
+    
+
 class ZoneConnection(models.Model):
 
     date = models.DateField(auto_now_add=True)
@@ -26,3 +30,11 @@ class ZoneConnection(models.Model):
     survivor = models.ForeignKey(Survivor,on_delete=models.CASCADE,related_name='survivor_zone_connection')
     from_zone = models.OneToOneField(Zone,on_delete=models.CASCADE,related_name='from_zone_zone_connection')
     to_zone = models.OneToOneField(Zone,on_delete=models.CASCADE,related_name='to_zone_zone_connection')
+
+class Puzzle(models.Model):
+    question = models.CharField(max_length=100)
+    answer = models.CharField(max_length=100)
+
+
+    def __str__(self):
+        return self.question

@@ -11,6 +11,7 @@ class SurvivorSerializer(serializers.ModelSerializer):
         model = Survivor
         fields = ['username','password','email','is_verified']
 
+
     def create(self, validated_data):
         user = User(username=validated_data['username'],email=validated_data.get('email'))
         user.set_password(validated_data['password'])
@@ -18,6 +19,11 @@ class SurvivorSerializer(serializers.ModelSerializer):
         return user
     
 class survivorLoginSerializer(serializers.Serializer):
+   
     username = serializers.CharField()
     password = serializers.IntegerField()
+
+
+
+
     
