@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from random import randint
 import time
 from rest_framework import status
+from .throttle import log_throttle
 
 
 class LogCreate(generics.CreateAPIView):
@@ -26,7 +27,7 @@ class LogCreate(generics.CreateAPIView):
     def randomValidate(self, request):
         random_number = randint(1, 100)
         if random_number % 2 == 0:
-            if self.__class__.number_count < 3:
+            if self.__class__.number_count <= 3:
                 self.__class__.number_count += 1
                 time.sleep(10)
                 return True
@@ -75,6 +76,7 @@ class LogList(generics.ListAPIView):
     queryset = Log.objects.all()
     serializer_class = LogListSerializer
     permission_classes = [permissions.AllowAny]
+    throttle_classes = [log_throttle]
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
